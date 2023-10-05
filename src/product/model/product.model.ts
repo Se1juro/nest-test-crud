@@ -3,7 +3,6 @@ import {
   BeforeInsert,
   BeforeUpdate,
   Column,
-  Double,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -21,7 +20,7 @@ export class Product {
   category: string;
 
   @Column({ name: 'price' })
-  price: Double;
+  price: number;
 
   @Column({ name: 'quantity' })
   quantity: number;

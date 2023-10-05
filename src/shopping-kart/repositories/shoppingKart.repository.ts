@@ -24,6 +24,6 @@ export class ShoppingKartRepository extends Repository<ShoppingKart> {
       .innerJoin('sp.shoppingKartProducts', 'spp')
       .innerJoin('spp.product', 'p')
       .where('sp.userId = :userId', { userId })
-      .getMany();
+      .getOne();
   }
 }

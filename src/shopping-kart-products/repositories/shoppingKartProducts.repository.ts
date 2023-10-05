@@ -7,4 +7,12 @@ export class ShoppingKartProductsRepository extends Repository<ShoppingKartProdu
   constructor(private dataSource: DataSource) {
     super(ShoppingKartProducts, dataSource.createEntityManager());
   }
+
+  getProducts(shoppingKartId: number) {
+    return this.createQueryBuilder('skp')
+      .select(['skp.id', 'skp.quantity', 'p.id', 'p.name', 'p.price'])
+      .innerJoin('skp.product', 'p')
+      .where('skp.shoppingKartId = :shoppingKartId', { shoppingKartId })
+      .getMany();
+  }
 }

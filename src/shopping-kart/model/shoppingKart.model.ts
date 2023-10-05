@@ -23,6 +23,9 @@ export class ShoppingKart {
   @Column({ name: 'status' })
   status: number;
 
+  @Column({ name: 'total' })
+  total: number;
+
   @OneToMany(
     () => ShoppingKartProducts,
     (shoppingKartProducts) => shoppingKartProducts.shoppingKart,

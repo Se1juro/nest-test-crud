@@ -80,9 +80,33 @@ export class ShoppingKartService {
       quantity: newQuantity,
     });
 
-    const realShoppingKart =
-      await this.shoppingKartRepository.getKartWithProduct(1);
+    return await this.syncShoppingKart(currentKart.id);
+  }
 
-    return realShoppingKart;
+  async syncShoppingKart(shoppingKartId: number) {
+    let total = 0;
+
+    const shoppingKart = await this.shoppingKartRepository.findOne({
+      where: { id: shoppingKartId },
+    });
+
+    if (!shoppingKart) return false;
+    total += shoppingKart.total;
+
+    const products =
+      await this.shoppingKartProductRepository.getProducts(shoppingKartId);
+
+    products.forEach(
+      (product) => (total += product.quantity * product.product.price),
+    );
+
+    const updatedKart = this.shoppingKartRepository.create({
+      ...shoppingKart,
+      total,
+    });
+
+    await this.shoppingKartRepository.save(updatedKart);
+
+    return await this.shoppingKartRepository.getKartWithProduct(1);
   }
 }

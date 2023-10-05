@@ -10,6 +10,8 @@ import {
 } from 'typeorm';
 
 @Index('shopping_kart_products_pkey', ['id'], { unique: true })
+@Index('index_kart_product_on_kart_id', ['shoppingKartId'], {})
+@Index('index_kart_product_on_product_id', ['productId'], {})
 @Entity({ name: 'shopping_kart_products' })
 export class ShoppingKartProducts {
   @PrimaryGeneratedColumn()

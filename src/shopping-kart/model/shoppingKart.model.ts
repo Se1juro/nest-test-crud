@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 
 @Index('shopping_kart_pkey', ['id'], { unique: true })
+@Index('index_kart_on_user_id', ['userId'], {})
 @Entity({ name: 'shopping_kart' })
 export class ShoppingKart {
   @PrimaryGeneratedColumn()

@@ -1,4 +1,5 @@
 import { ProductPurchase } from 'src/product-purchase/model/productPurchase.model';
+import { ShoppingKartProducts } from 'src/shopping-kart-products/model/shoppingKartProducts.model';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -49,4 +50,10 @@ export class Product {
     (productPurchases) => productPurchases.purchase,
   )
   productPurchase: ProductPurchase[];
+
+  @OneToMany(
+    () => ShoppingKartProducts,
+    (shoppingKartProducts) => shoppingKartProducts.product,
+  )
+  shoppingKartProducts: ShoppingKartProducts[];
 }

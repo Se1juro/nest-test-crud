@@ -1,4 +1,5 @@
 import { Purchase } from 'src/purchase/model/purchase.model';
+import { ShoppingKart } from 'src/shopping-kart/model/shoppingKart.model';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -43,6 +44,10 @@ export class Users {
   updateDateWhenUpdate() {
     this.updatedAt = new Date();
   }
+
   @OneToMany(() => Purchase, (purchases) => purchases.user)
   purchase: Purchase[];
+
+  @OneToMany(() => ShoppingKart, (shoppingKarts) => shoppingKarts.user)
+  shoppingKart: ShoppingKart[];
 }

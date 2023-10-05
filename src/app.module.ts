@@ -10,6 +10,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
 import { DATABASE_CONFIGURATION } from './config/database.configuration';
+import { ShoppingKartModule } from './shopping-kart/shopping-kart.module';
+import { ShoppingKartProductsModule } from './shopping-kart-products/shopping-kart-products.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { DATABASE_CONFIGURATION } from './config/database.configuration';
     UserModule,
     PurchaseModule,
     ProductPurchaseModule,
+    ShoppingKartModule,
+    ShoppingKartProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

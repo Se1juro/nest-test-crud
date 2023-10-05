@@ -1,5 +1,5 @@
 import { ProductPurchase } from 'src/product-purchase/model/productPurchase.model';
-import { User } from 'src/user/model/user.model';
+import { Users } from 'src/user/model/user.model';
 import {
   Column,
   Entity,
@@ -26,9 +26,9 @@ export class Purchase {
   @Column({ name: 'user_id' })
   userId: number;
 
-  @ManyToOne(() => User, (users) => users.purchase)
+  @ManyToOne(() => Users, (users) => users.purchase)
   @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
-  user: User;
+  user: Users;
 
   @OneToMany(
     () => ProductPurchase,

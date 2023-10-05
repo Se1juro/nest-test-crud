@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CreateUserValidator } from './validators/user.validator';
-import { UserService } from './services/user.service';
+import { UserService } from './user.service';
 
 @Controller('/v1/users')
 export class UserController {

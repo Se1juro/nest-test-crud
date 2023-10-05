@@ -10,27 +10,27 @@ import {
 } from 'typeorm';
 
 @Index('user_pkey', ['id'], { unique: true })
-@Entity({ name: 'user' })
-export class User {
+@Entity({ name: 'users' })
+export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ name: 'name' })
   name: string;
 
-  @Column({ name: 'money' })
+  @Column({ name: 'money', default: 0 })
   money: number;
 
   @Column({ name: 'username', unique: true })
-  username: string;
+  userName: string;
 
   @Column({ name: 'password' })
   password: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', name: 'created_at' })
   createdAt: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', name: 'updated_at' })
   updatedAt: Date;
 
   @BeforeInsert()

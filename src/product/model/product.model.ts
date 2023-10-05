@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'product' })
+@Entity({ name: 'products' })
 @Index('product_pkey', ['id'], { unique: true })
 export class Product {
   @PrimaryGeneratedColumn()
@@ -27,10 +27,10 @@ export class Product {
   @Column({ name: 'quantity' })
   quantity: number;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', name: 'created_at' })
   createdAt: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', name: 'updated_at' })
   updatedAt: Date;
 
   @BeforeInsert()

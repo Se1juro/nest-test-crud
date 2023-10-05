@@ -4,11 +4,13 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  Index,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity({ name: 'product' })
+@Index('product_pkey', ['id'], { unique: true })
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
@@ -25,15 +27,15 @@ export class Product {
   @Column({ name: 'quantity' })
   quantity: number;
 
-  @Column({ type: 'datetime' })
-  createAt: Date;
+  @Column({ type: 'timestamp' })
+  createdAt: Date;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp' })
   updatedAt: Date;
 
   @BeforeInsert()
   updateDatesWhenCreate() {
-    this.createAt = new Date();
+    this.createdAt = new Date();
     this.updatedAt = new Date();
   }
 

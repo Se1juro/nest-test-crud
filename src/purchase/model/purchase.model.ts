@@ -2,7 +2,6 @@ import { ProductPurchase } from 'src/product-purchase/model/productPurchase.mode
 import { User } from 'src/user/model/user.model';
 import {
   Column,
-  Double,
   Entity,
   Index,
   JoinColumn,
@@ -22,7 +21,7 @@ export class Purchase {
   purchaseDate: Date;
 
   @Column({ name: 'total' })
-  total: Double;
+  total: number;
 
   @Column({ name: 'user_id' })
   userId: number;

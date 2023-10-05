@@ -10,14 +10,14 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'product_purchase' })
-@Index('index_product_purchase_on_user_id', ['userId'], {})
+@Index('index_product_purchase_on_purchase_id', ['purchaseId'], {})
 @Index('index_product_purchase_on_product_id', ['productId'], {})
 @Index('purchase_product_pkey', ['id'], { unique: true })
 export class ProductPurchase {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'user_id' })
+  @Column({ name: 'purchase_id' })
   purchaseId: number;
 
   @Column({ name: 'product_id' })

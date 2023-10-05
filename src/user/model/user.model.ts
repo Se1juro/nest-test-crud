@@ -3,7 +3,6 @@ import {
   BeforeInsert,
   BeforeUpdate,
   Column,
-  Double,
   Entity,
   Index,
   OneToMany,
@@ -20,7 +19,7 @@ export class User {
   name: string;
 
   @Column({ name: 'money' })
-  money: Double;
+  money: number;
 
   @Column({ name: 'username', unique: true })
   username: string;
@@ -28,15 +27,15 @@ export class User {
   @Column({ name: 'password' })
   password: string;
 
-  @Column({ type: 'datetime' })
-  createAt: Date;
+  @Column({ type: 'timestamp' })
+  createdAt: Date;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp' })
   updatedAt: Date;
 
   @BeforeInsert()
   updateDatesWhenCreate() {
-    this.createAt = new Date();
+    this.createdAt = new Date();
     this.updatedAt = new Date();
   }
 

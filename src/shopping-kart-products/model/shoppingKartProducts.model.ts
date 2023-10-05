@@ -23,6 +23,9 @@ export class ShoppingKartProducts {
   @Column({ name: 'product_id' })
   productId: number;
 
+  @Column({ name: 'quantity' })
+  quantity: number;
+
   @ManyToOne(
     () => ShoppingKart,
     (shoppingKarts) => shoppingKarts.shoppingKartProducts,

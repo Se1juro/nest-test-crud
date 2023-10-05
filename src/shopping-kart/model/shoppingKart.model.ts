@@ -1,4 +1,3 @@
-import { ShoppingKartStatusEnum } from 'src/enums/shoppingKartStatus.enum';
 import { ShoppingKartProducts } from 'src/shopping-kart-products/model/shoppingKartProducts.model';
 import { Users } from 'src/user/model/user.model';
 import {
@@ -22,7 +21,7 @@ export class ShoppingKart {
   userId: number;
 
   @Column({ name: 'status' })
-  status: ShoppingKartStatusEnum;
+  status: number;
 
   @OneToMany(
     () => ShoppingKartProducts,

@@ -40,7 +40,11 @@ export class UserService {
       money: user.money + balance,
     });
 
-    return await this.userRepository.save(newBalance);
+    const userSaved = await this.userRepository.save(newBalance);
+
+    delete userSaved.password;
+
+    return userSaved;
   }
 
   async getUserById(userId: number) {

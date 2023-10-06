@@ -38,14 +38,15 @@ export class ShoppingKartService {
       });
 
     let currentKart = await this.shoppingKartRepository.findOne({
-      where: { userId: 1, status: 0 },
+      where: { userId: 1, status: ShoppingKartStatusEnum.PENDING },
     });
 
     // If not exits a kart pending, create one
     if (!currentKart) {
       const newKart = this.shoppingKartRepository.create({
-        status: 0,
+        status: ShoppingKartStatusEnum.PENDING,
         userId: 1,
+        total: 0,
       });
       currentKart = await this.shoppingKartRepository.save(newKart);
     }
@@ -77,19 +78,29 @@ export class ShoppingKartService {
       });
     }
 
-    await this.shoppingKartProductRepository.save({
+    const kartProduct = await this.shoppingKartProductRepository.save({
       ...shoppingKartProduct,
       quantity: newQuantity,
     });
 
-    return await this.syncShoppingKart(currentKart.id);
+    const total = kartProduct.quantity * product.price;
+
+    currentKart.total = Number(total) + Number(currentKart.total);
+
+    await this.shoppingKartRepository.save(currentKart);
+
+    return await this.getKartWithProduct(currentKart.id);
+  }
+
+  async getKartWithProduct(kartId: number) {
+    return await this.shoppingKartRepository.getKartWithProductByKartId(kartId);
   }
 
   async syncShoppingKart(shoppingKartId: number) {
     let total = 0;
 
     const shoppingKart = await this.shoppingKartRepository.findOne({
-      where: { id: shoppingKartId },
+      where: { id: shoppingKartId, status: ShoppingKartStatusEnum.PENDING },
     });
 
     if (!shoppingKart) return false;
@@ -98,9 +109,9 @@ export class ShoppingKartService {
     const products =
       await this.shoppingKartProductRepository.getProducts(shoppingKartId);
 
-    products.forEach(
-      (product) => (total += product.quantity * product.product.price),
-    );
+    products.forEach((product) => {
+      total += product.quantity * product.product.price;
+    });
 
     const updatedKart = this.shoppingKartRepository.create({
       ...shoppingKart,

@@ -24,6 +24,27 @@ export class ShoppingKartRepository extends Repository<ShoppingKart> {
       .innerJoin('sp.shoppingKartProducts', 'spp')
       .innerJoin('spp.product', 'p')
       .where('sp.userId = :userId', { userId })
+      .andWhere('sp.status = 0')
+      .getOne();
+  }
+
+  getKartWithProductByKartId(kartId: number) {
+    return this.createQueryBuilder('sp')
+      .select([
+        'sp.id',
+        'sp.status',
+        'sp.total',
+        'spp.id',
+        'spp.productId',
+        'spp.quantity',
+        'p.id',
+        'p.name',
+        'p.price',
+      ])
+      .innerJoin('sp.shoppingKartProducts', 'spp')
+      .innerJoin('spp.product', 'p')
+      .where('sp.id = :kartId', { kartId })
+      .andWhere('sp.status = 0')
       .getOne();
   }
 }

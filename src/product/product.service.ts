@@ -76,14 +76,16 @@ export class ProductService {
 
     for (const product of kart.shoppingKartProducts) {
       const stockProduct = await this.productRepository.findOne({
-        where: { id: product.id },
+        where: { id: product.productId },
       });
-      if (stockProduct.quantity < product.quantity)
+
+      if (stockProduct.quantity < product.quantity) {
         errors.push({
           name: stockProduct.name,
           stock: stockProduct.quantity,
           error: 'Without stock',
         });
+      }
     }
 
     return { haveError: errors.length > 0, errors };

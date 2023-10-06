@@ -23,7 +23,7 @@ export class ShoppingKart {
   @Column({ name: 'status' })
   status: number;
 
-  @Column({ name: 'total' })
+  @Column({ name: 'total', type: 'decimal', precision: 10, scale: 2 })
   total: number;
 
   @OneToMany(

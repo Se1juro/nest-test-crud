@@ -18,7 +18,7 @@ export class ProductPurchaseService {
     for (const product of products) {
       const productPurchase = this.productPurchaseRepository.create({
         purchaseId,
-        productId: product.id,
+        productId: product.productId,
       });
 
       const saved = await this.productPurchaseRepository.save(productPurchase);

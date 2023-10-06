@@ -19,7 +19,13 @@ export class Users {
   @Column({ name: 'name' })
   name: string;
 
-  @Column({ name: 'money', default: 0 })
+  @Column({
+    name: 'money',
+    default: 0,
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+  })
   money: number;
 
   @Column({ name: 'username', unique: true })

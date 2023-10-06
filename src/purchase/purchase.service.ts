@@ -21,7 +21,7 @@ export class PurchaseService {
   ) {}
 
   async shopKart(kartId: number) {
-    const kart = await this.shopKartService.syncShoppingKart(kartId);
+    const kart = await this.shopKartService.getKartWithProduct(kartId);
 
     if (!kart)
       throw new NotFoundException('Kart not found', {
@@ -31,11 +31,6 @@ export class PurchaseService {
 
     const checkStock =
       await this.productService.checkProductStockWithKart(kart);
-
-    console.log(
-      '🚀 ~ file: purchase.service.ts:32 ~ PurchaseService ~ shopKart ~ checkStock:',
-      checkStock,
-    );
 
     if (checkStock.haveError)
       throw new BadRequestException({
@@ -87,7 +82,7 @@ export class PurchaseService {
     // Update money user
     await this.userService.updateUser({
       ...user,
-      money: kart.total - user.money,
+      money: user.money - kart.total,
     });
 
     return purchaseSaved;

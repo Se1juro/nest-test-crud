@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductModule } from './product/product.module';
@@ -14,6 +14,7 @@ import { ShoppingKartModule } from './shopping-kart/shopping-kart.module';
 import { ShoppingKartProductsModule } from './shopping-kart-products/shopping-kart-products.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthStrategy } from './auth/strategies/auth.strategy';
+import { LoggerMiddleware } from './middlewares/logger-middleware.middleware';
 
 @Module({
   imports: [
@@ -30,6 +31,8 @@ import { JwtAuthStrategy } from './auth/strategies/auth.strategy';
   controllers: [AppController],
   providers: [AppService, JwtAuthStrategy],
 })
-export class AppModule {
-  constructor() {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
 }

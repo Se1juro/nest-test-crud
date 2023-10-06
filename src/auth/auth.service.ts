@@ -12,10 +12,29 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
+  salt = bcrypt.genSaltSync(10);
+
   constructor(
     private readonly userRepository: UserRepository,
     private jwtService: JwtService,
   ) {}
+
+  async createUser(user: DeepPartial<Users>) {
+    const { password } = user;
+    const passwordHashed = bcrypt.hashSync(password, this.salt);
+
+    const newUser = this.userRepository.create({
+      ...user,
+      password: passwordHashed,
+    });
+
+    const userRegistered = await this.userRepository.save(newUser);
+
+    return {
+      user: userRegistered,
+      token: this.generateToken({ ...userRegistered }),
+    };
+  }
 
   async signIn(user: LoginValidator) {
     const { userName, password } = user;

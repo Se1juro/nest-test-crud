@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadGatewayException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
 import { Product } from './model/product.model';
 import { ProductRepository } from './repositories/product.repository';
@@ -28,5 +32,30 @@ export class ProductService {
       limit,
       totalPage: Math.ceil(totalRows / limit),
     };
+  }
+
+  async reduceStock(productId: number, stockToReduce: number) {
+    const product = await this.productRepository.findOne({
+      where: { id: productId },
+    });
+
+    if (!product)
+      throw new NotFoundException('Product not found', {
+        cause: new Error(),
+        description: 'Product not found',
+      });
+
+    if (product.quantity < 1 || product.quantity - stockToReduce < 0)
+      throw new BadGatewayException('Product without stock', {
+        cause: new Error(),
+        description: 'Product without stock',
+      });
+
+    const productUpdated = this.productRepository.create({
+      ...product,
+      quantity: product.quantity - stockToReduce,
+    });
+
+    return await this.productRepository.save(productUpdated);
   }
 }

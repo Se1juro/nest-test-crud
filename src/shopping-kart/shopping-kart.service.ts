@@ -24,9 +24,9 @@ export class ShoppingKartService {
     });
 
     if (!product)
-      throw new NotFoundException('User not found', {
+      throw new NotFoundException('Product not found', {
         cause: new Error(),
-        description: 'User not found',
+        description: 'Product not found',
       });
 
     if (product.quantity < quantity)

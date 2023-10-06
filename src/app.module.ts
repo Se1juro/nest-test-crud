@@ -12,6 +12,8 @@ import { ConfigModule } from '@nestjs/config';
 import { DATABASE_CONFIGURATION } from './config/database.configuration';
 import { ShoppingKartModule } from './shopping-kart/shopping-kart.module';
 import { ShoppingKartProductsModule } from './shopping-kart-products/shopping-kart-products.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtAuthStrategy } from './auth/strategies/auth.strategy';
 
 @Module({
   imports: [
@@ -23,9 +25,10 @@ import { ShoppingKartProductsModule } from './shopping-kart-products/shopping-ka
     ProductPurchaseModule,
     ShoppingKartModule,
     ShoppingKartProductsModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtAuthStrategy],
 })
 export class AppModule {
   constructor() {}

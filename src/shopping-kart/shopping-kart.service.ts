@@ -18,7 +18,7 @@ export class ShoppingKartService {
     private readonly shoppingKartProductRepository: ShoppingKartProductsRepository,
   ) {}
 
-  async addProductToKart(body: ShoppingKartCreateValidator) {
+  async addProductToKart(body: ShoppingKartCreateValidator, userId: number) {
     const { productId, quantity } = body;
 
     const product = await this.productRepository.findOne({
@@ -38,14 +38,14 @@ export class ShoppingKartService {
       });
 
     let currentKart = await this.shoppingKartRepository.findOne({
-      where: { userId: 1, status: ShoppingKartStatusEnum.PENDING },
+      where: { userId, status: ShoppingKartStatusEnum.PENDING },
     });
 
     // If not exits a kart pending, create one
     if (!currentKart) {
       const newKart = this.shoppingKartRepository.create({
         status: ShoppingKartStatusEnum.PENDING,
-        userId: 1,
+        userId,
         total: 0,
       });
       currentKart = await this.shoppingKartRepository.save(newKart);
@@ -96,7 +96,7 @@ export class ShoppingKartService {
     return await this.shoppingKartRepository.getKartWithProductByKartId(kartId);
   }
 
-  async syncShoppingKart(shoppingKartId: number) {
+  async syncShoppingKart(shoppingKartId: number, userId: number) {
     let total = 0;
 
     const shoppingKart = await this.shoppingKartRepository.findOne({
@@ -120,7 +120,7 @@ export class ShoppingKartService {
 
     await this.shoppingKartRepository.save(updatedKart);
 
-    return await this.shoppingKartRepository.getKartWithProduct(1);
+    return await this.shoppingKartRepository.getKartWithProduct(userId);
   }
 
   async updateKart(kart: ShoppingKart) {

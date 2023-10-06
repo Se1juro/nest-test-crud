@@ -27,8 +27,8 @@ export class UserService {
     return await this.userRepository.save(updatedUser);
   }
 
-  async chargeBalance(balance: number) {
-    const user = await this.userRepository.findOne({ where: { id: 1 } });
+  async chargeBalance(balance: number, userId: number) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user)
       throw new NotFoundException('User not found', {
         cause: new Error(),

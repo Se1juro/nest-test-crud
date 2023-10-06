@@ -7,6 +7,7 @@ import { ShoppingKartRepository } from './repositories/shoppingKart.repository';
 import { ShoppingKartCreateValidator } from './validators/shoppingKart.validator';
 import { ProductRepository } from 'src/product/repositories/product.repository';
 import { ShoppingKartProductsRepository } from 'src/shopping-kart-products/repositories/shoppingKartProducts.repository';
+import { ShoppingKart } from './model/shoppingKart.model';
 
 @Injectable()
 export class ShoppingKartService {
@@ -108,5 +109,11 @@ export class ShoppingKartService {
     await this.shoppingKartRepository.save(updatedKart);
 
     return await this.shoppingKartRepository.getKartWithProduct(1);
+  }
+
+  async updateKart(kart: ShoppingKart) {
+    const kartUpdate = this.shoppingKartRepository.create(kart);
+
+    return await this.shoppingKartRepository.save(kartUpdate);
   }
 }

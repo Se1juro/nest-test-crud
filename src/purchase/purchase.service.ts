@@ -8,6 +8,7 @@ import { UserService } from 'src/user/user.service';
 import { PurchasesRepository } from './repositories/purchases.repository';
 import { ProductService } from 'src/product/product.service';
 import { ProductPurchaseService } from 'src/product-purchase/product-purchase.service';
+import { ShoppingKartStatusEnum } from 'src/enums/shoppingKartStatus.enum';
 
 @Injectable()
 export class PurchaseService {
@@ -69,10 +70,26 @@ export class PurchaseService {
       kart.shoppingKartProducts,
     );
 
+    // Reduce stock products
+    for (const product of kart.shoppingKartProducts) {
+      await this.productService.reduceStock(
+        product.productId,
+        product.quantity,
+      );
+    }
+
+    // Change kart status
+    await this.shopKartService.updateKart({
+      ...kart,
+      status: ShoppingKartStatusEnum.PURCHASED,
+    });
+
     // Update money user
     await this.userService.updateUser({
       ...user,
       money: kart.total - user.money,
     });
+
+    return purchaseSaved;
   }
 }

@@ -8,6 +8,7 @@ import { ShoppingKartCreateValidator } from './validators/shoppingKart.validator
 import { ProductRepository } from 'src/product/repositories/product.repository';
 import { ShoppingKartProductsRepository } from 'src/shopping-kart-products/repositories/shoppingKartProducts.repository';
 import { ShoppingKart } from './model/shoppingKart.model';
+import { ShoppingKartStatusEnum } from 'src/enums/shoppingKartStatus.enum';
 
 @Injectable()
 export class ShoppingKartService {
@@ -115,5 +116,17 @@ export class ShoppingKartService {
     const kartUpdate = this.shoppingKartRepository.create(kart);
 
     return await this.shoppingKartRepository.save(kartUpdate);
+  }
+
+  async getShoppingKart(userId: number) {
+    const kart = await this.shoppingKartRepository.findOne({
+      where: { userId, status: ShoppingKartStatusEnum.PENDING },
+    });
+    if (!kart)
+      throw new NotFoundException({
+        message: 'Your kart is empty, add products',
+      });
+
+    return await this.syncShoppingKart(kart.id);
   }
 }

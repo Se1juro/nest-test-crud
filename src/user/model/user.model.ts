@@ -21,7 +21,7 @@ export class Users {
 
   @Column({
     name: 'money',
-    default: 0,
+    default: 0.0,
     type: 'decimal',
     precision: 10,
     scale: 2,

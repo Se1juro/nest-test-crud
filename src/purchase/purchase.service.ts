@@ -46,7 +46,7 @@ export class PurchaseService {
         description: 'User not found',
       });
 
-    if (kart.total > user.money)
+    if (Number(kart.total) > Number(user.money))
       throw new BadRequestException("You don't have enough money", {
         cause: new Error(),
         description: "You don't have enough money",
@@ -80,9 +80,11 @@ export class PurchaseService {
     });
 
     // Update money user
+    const currentMoney = Number(user.money) - Number(kart.total);
+
     await this.userService.updateUser({
       ...user,
-      money: user.money - kart.total,
+      money: currentMoney,
     });
 
     return purchaseSaved;

@@ -37,7 +37,7 @@ export class UserService {
 
     const newBalance = this.userRepository.create({
       ...user,
-      money: user.money + balance,
+      money: Number(user.money) + Number(balance),
     });
 
     const userSaved = await this.userRepository.save(newBalance);

@@ -138,6 +138,6 @@ export class ShoppingKartService {
         message: 'Your kart is empty, add products',
       });
 
-    return await this.syncShoppingKart(kart.id);
+    return await this.getKartWithProduct(kart.id);
   }
 }

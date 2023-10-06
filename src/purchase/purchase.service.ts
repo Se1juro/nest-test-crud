@@ -6,6 +6,8 @@ import {
 import { ShoppingKartService } from 'src/shopping-kart/shopping-kart.service';
 import { UserService } from 'src/user/user.service';
 import { PurchasesRepository } from './repositories/purchases.repository';
+import { ProductService } from 'src/product/product.service';
+import { ProductPurchaseService } from 'src/product-purchase/product-purchase.service';
 
 @Injectable()
 export class PurchaseService {
@@ -13,17 +15,31 @@ export class PurchaseService {
     private shopKartService: ShoppingKartService,
     private userService: UserService,
     private purchaseRepository: PurchasesRepository,
+    private productService: ProductService,
+    private productPurchaseService: ProductPurchaseService,
   ) {}
 
   async shopKart(kartId: number) {
     const kart = await this.shopKartService.syncShoppingKart(kartId);
 
-    // TODO: Check products stock
-
     if (!kart)
       throw new NotFoundException('Kart not found', {
         cause: new Error(),
         description: 'Kart not found',
+      });
+
+    const checkStock =
+      await this.productService.checkProductStockWithKart(kart);
+
+    console.log(
+      '🚀 ~ file: purchase.service.ts:32 ~ PurchaseService ~ shopKart ~ checkStock:',
+      checkStock,
+    );
+
+    if (checkStock.haveError)
+      throw new BadRequestException({
+        message: 'Problems with stock',
+        errors: checkStock.errors,
       });
 
     const user = await this.userService.getUserById(kart.userId);
@@ -47,6 +63,11 @@ export class PurchaseService {
     });
     // Create purchase
     const purchaseSaved = await this.purchaseRepository.save(purchase);
+
+    await this.productPurchaseService.createProductPurchase(
+      purchaseSaved.id,
+      kart.shoppingKartProducts,
+    );
 
     // Update money user
     await this.userService.updateUser({

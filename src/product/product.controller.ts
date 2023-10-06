@@ -3,7 +3,9 @@ import { CreateProductValidator } from './validators/createProduct.validator';
 import { ProductService } from './product.service';
 import { ParamFilterValidator } from './validators/paramFilters.validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwtAuthguard';
-
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+@ApiBearerAuth()
+@ApiTags('Products')
 @Controller('/v1/products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}

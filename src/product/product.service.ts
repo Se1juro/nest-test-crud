@@ -8,6 +8,7 @@ import { Product } from './model/product.model';
 import { ProductRepository } from './repositories/product.repository';
 import { IParamsSearch } from 'src/interfaces/paramsSearchProducts.interface';
 import { ShoppingKart } from 'src/shopping-kart/model/shoppingKart.model';
+import { IProductsResponse } from 'src/interfaces/products.interface';
 
 @Injectable()
 export class ProductService {
@@ -19,7 +20,7 @@ export class ProductService {
     return await this.productRepository.save(newProduct);
   }
 
-  async getAllProduct(params: IParamsSearch) {
+  async getAllProduct(params: IParamsSearch): Promise<IProductsResponse> {
     const { limit, page } = params;
     const [rows, totalRows] = await this.productRepository.searchProducts(
       page,

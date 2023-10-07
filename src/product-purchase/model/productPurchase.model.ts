@@ -1,5 +1,5 @@
-import { Product } from 'src/product/model/product.model';
-import { Purchase } from 'src/purchase/model/purchase.model';
+import { Product } from '../../product/model/product.model';
+import { Purchase } from '../../purchase/model/purchase.model';
 import {
   Column,
   Entity,

@@ -1,7 +1,7 @@
 import { Body, Controller, Patch, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { BalanceValidator } from './validators/balance.validator';
-import { JwtAuthGuard } from 'src/auth/guards/jwtAuthguard';
+
 import {
   ApiTags,
   ApiBearerAuth,
@@ -9,6 +9,7 @@ import {
   ApiBody,
   ApiResponse,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwtAuthguard';
 import {
   chargeBalanceBody,
   chargeBalanceResponse,

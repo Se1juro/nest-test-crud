@@ -24,9 +24,23 @@ services:
       - ./src:/app/src
     networks:
       - postgres
+      - nginx-api-net
+  nginx-api:
+    build:
+      context: ./nginx
+    container_name: nginx-nest-api
+    hostname: nginx
+    ports:
+      - '80:80'
+    depends_on:
+      - app
+    networks:
+      - nginx-api-net
 volumes:
   database_data:
     driver: local
 networks:
   postgres:
+    driver: bridge
+  nginx-api-net:
     driver: bridge

@@ -1,0 +1,571 @@
+{
+	"info": {
+		"_postman_id": "5b8adf26-8dad-4ef1-bf49-e644699bb353",
+		"name": "SmartSoft Labs - Test Backend",
+		"description": "Esta es una API Rest que simula un ecommerce, cuenta con carrito de compras, sesiones mediante tokens y la posibilidad de crear productos.\n\nNo maneja roles, por lo cual cualquiera puede modificar el producto.\n\nPrimeramente se crea un carrito de compras el cual se le pueden añadir productos, luego, si se decide a realizar la compra, el carrito pasa a estar en estado purchase (1) y se genera el registro de la compra y a su vez los productos asociados a esa compra.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11296182"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/store/v1/products?limit=10&page=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"store",
+								"v1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Retorna todos los productos creados y la informacion total de los productos y las paginas\n\nManeja dos parametros, limit y page,"
+					},
+					"response": [
+						{
+							"name": "Get all products",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/store/v1/products?limit=10&page=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"store",
+										"v1",
+										"products"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkRhbmllbCBNb3JhbGVzIiwibW9uZXkiOiI5NDEuNTIiLCJ1c2VyTmFtZSI6ImRhbmllbG0wNzEiLCJjcmVhdGVkQXQiOiIyMDIzLTEwLTA2VDE2OjM4OjMyLjcwN1oiLCJ1cGRhdGVkQXQiOiIyMDIzLTEwLTA2VDE2OjQ1OjA0LjA1OFoiLCJpYXQiOjE2OTY2MTQ0NDMsImV4cCI6MTY5NjYyMTY0M30.NVuSvKClFdFtAiXdIT-t5_PskPxrugInCPTp4Yd-MDo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Vasos de vidrio\",\n  \"category\": \"Cocina\",\n  \"price\": 4.99,\n  \"quantity\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/store/v1/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"store",
+								"v1",
+								"products"
+							]
+						},
+						"description": "Crea un product, se compone de 4 campos, name, category, price y quantity, price puede ser decimal, la categoria es libre, no hay ningun enum ni interface que restrinja el nombre de la categoria.\n\nRequiere de un Bearer token"
+					},
+					"response": [
+						{
+							"name": "Create product",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Vasos de vidrio\",\n  \"category\": \"Cocina\",\n  \"price\": 5,\n  \"quantity\": 100\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/store/v1/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"store",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Esta coleccion cuenta con toda la informacion de los productos, la posibilidad de crear productos y actualizar un producto."
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Charge balance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRGFuaWVsIE1vcmFsZXMiLCJ1c2VyTmFtZSI6ImRhbmllbG0wNzEiLCJwYXNzd29yZCI6IiQyYiQxMCR5Mm5zcjR2aHpmT1lkM2hZY043RGkuQzVhQm8zT0dxTGxsbmZOMDVsOXZXLnQvby9HNEFzSyIsImNyZWF0ZWRBdCI6IjIwMjMtMTAtMDdUMDQ6MzU6MDEuNDgxWiIsInVwZGF0ZWRBdCI6IjIwMjMtMTAtMDdUMDQ6MzU6MDEuNDgxWiIsImlkIjoxLCJtb25leSI6IjAuMDAiLCJpYXQiOjE2OTY2NTMzMDEsImV4cCI6MTY5NjY2MDUwMX0.J4EtlhAU3aI7uWABJKUf_qoCl2X2pAoD-GtUfgPZgOA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"balance\": 500\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/store/v1/users/charge-balance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"store",
+								"v1",
+								"users",
+								"charge-balance"
+							]
+						},
+						"description": "Este endpoint añade fondos a tu cuenta, solo recibe un parametro, balance, el cual puede ser un decimal o un numero entero. Requiere autenticacion"
+					},
+					"response": [
+						{
+							"name": "Charge balance",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"balance\": 20000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/store/v1/users/charge-balance",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"store",
+										"v1",
+										"users",
+										"charge-balance"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Esta coleccion permite crear usuario y añadir fondos a tu cuenta"
+		},
+		{
+			"name": "Shopping Kart",
+			"item": [
+				{
+					"name": "Add Product to kart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRGFuaWVsIE1vcmFsZXMiLCJ1c2VyTmFtZSI6ImRhbmllbG0wNzEiLCJwYXNzd29yZCI6IiQyYiQxMCR5Mm5zcjR2aHpmT1lkM2hZY043RGkuQzVhQm8zT0dxTGxsbmZOMDVsOXZXLnQvby9HNEFzSyIsImNyZWF0ZWRBdCI6IjIwMjMtMTAtMDdUMDQ6MzU6MDEuNDgxWiIsInVwZGF0ZWRBdCI6IjIwMjMtMTAtMDdUMDQ6MzU6MDEuNDgxWiIsImlkIjoxLCJtb25leSI6IjAuMDAiLCJpYXQiOjE2OTY2NTMzMDEsImV4cCI6MTY5NjY2MDUwMX0.J4EtlhAU3aI7uWABJKUf_qoCl2X2pAoD-GtUfgPZgOA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": 11,\n  \"quantity\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/store/v1/shopping-kart/add-product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"store",
+								"v1",
+								"shopping-kart",
+								"add-product"
+							]
+						},
+						"description": "Este endpoint recibe el id de un producto y la cantidadd a agregar a tu carrito. Requiere autenticacion"
+					},
+					"response": [
+						{
+							"name": "Add Product to kart",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"productId\": 7,\n  \"quantity\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/store/v1/shopping-kart/add-product",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"store",
+										"v1",
+										"shopping-kart",
+										"add-product"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get my kart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkRhbmllbCBNb3JhbGVzIiwibW9uZXkiOiI5NDEuNTIiLCJ1c2VyTmFtZSI6ImRhbmllbG0wNzEiLCJjcmVhdGVkQXQiOiIyMDIzLTEwLTA2VDE2OjM4OjMyLjcwN1oiLCJ1cGRhdGVkQXQiOiIyMDIzLTEwLTA2VDE2OjQ1OjA0LjA1OFoiLCJpYXQiOjE2OTY2MTQ0NDMsImV4cCI6MTY5NjYyMTY0M30.NVuSvKClFdFtAiXdIT-t5_PskPxrugInCPTp4Yd-MDo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/store/v1/shopping-kart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"store",
+								"v1",
+								"shopping-kart",
+								""
+							]
+						},
+						"description": "Retorna el estado de tu carrito: 0 Pendiente, 1 Comprado, el total del carrito y la lista con todos los productos junto a su nombre, precio y cantidad"
+					},
+					"response": [
+						{
+							"name": "Get my kart",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/store/v1/shopping-kart/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"store",
+										"v1",
+										"shopping-kart",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Esta coleccion permite manejar tu carrito de compras, ya sea agregando productos, eliminando productos, modificando cantidades y ver la totalidad de tu producto"
+		},
+		{
+			"name": "Purchases",
+			"item": [
+				{
+					"name": "Shop Kart pending",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRGFuaWVsIE1vcmFsZXMiLCJ1c2VyTmFtZSI6ImRhbmllbG0wNzEiLCJwYXNzd29yZCI6IiQyYiQxMCR5Mm5zcjR2aHpmT1lkM2hZY043RGkuQzVhQm8zT0dxTGxsbmZOMDVsOXZXLnQvby9HNEFzSyIsImNyZWF0ZWRBdCI6IjIwMjMtMTAtMDdUMDQ6MzU6MDEuNDgxWiIsInVwZGF0ZWRBdCI6IjIwMjMtMTAtMDdUMDQ6MzU6MDEuNDgxWiIsImlkIjoxLCJtb25leSI6IjAuMDAiLCJpYXQiOjE2OTY2NTMzMDEsImV4cCI6MTY5NjY2MDUwMX0.J4EtlhAU3aI7uWABJKUf_qoCl2X2pAoD-GtUfgPZgOA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/store/v1/purchase/buy/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"store",
+								"v1",
+								"purchase",
+								"buy",
+								"1"
+							]
+						},
+						"description": "Este endpoint solo recibe un el id de tu carrito, verifica que no sea un carrito en estado purchased y luego procede a hacer la compra y toda la logica que sigue por detras, como reducir stock, reducir dinero, etc."
+					},
+					"response": [
+						{
+							"name": "Shop Kart pending",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/store/v1/purchase/buy/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"store",
+										"v1",
+										"purchase",
+										"buy",
+										"5"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Esta coleccion permite realizar compras y ver tus compras pasadas"
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Daniel Morales\",\n  \"userName\": \"danielm071\",\n  \"password\": \"Daniel99$\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/store/v1/auth/sign-up",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"store",
+								"v1",
+								"auth",
+								"sign-up"
+							]
+						},
+						"description": "Podemos crear usuarios, nos devolvera el usuario creado, con la password hasheada.  \nLa password debe ser un strongPassword, es decir, debe tener caracteres especiales, numeros y mayusculas"
+					},
+					"response": [
+						{
+							"name": "Create User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Daniel Morales\",\n  \"userName\": \"danielm071\",\n  \"password\": \"Daniel99$\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/store/v1/users/sign-up",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"store",
+										"v1",
+										"users",
+										"sign-up"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\": \"danielm071\",\n    \"password\": \"Daniel99$\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/store/v1/auth/sign-in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"store",
+								"v1",
+								"auth",
+								"sign-in"
+							]
+						},
+						"description": "Este endpoint recibe dos parametros, userName y password, luego devuelve la data del usuario y un token que dura 2 horas."
+					},
+					"response": []
+				}
+			],
+			"description": "Esta coleccion nos permite iniciar sesion y crear usuarios"
+		}
+	]
+}

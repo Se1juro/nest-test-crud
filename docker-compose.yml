@@ -36,8 +36,18 @@ services:
       - app
     networks:
       - nginx-api-net
+  redis:
+    image: 'redis:6.0.9-alpine'
+    container_name: redis-nest
+    mem_limit: 512m
+    volumes:
+      - 'redis:/data'
+    ports:
+      - '6379:6379'
 volumes:
   database_data:
+    driver: local
+  redis:
     driver: local
 networks:
   postgres:

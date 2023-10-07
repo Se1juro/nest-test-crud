@@ -1,9 +1,18 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { CreateProductValidator } from './validators/createProduct.validator';
 import { ProductService } from './product.service';
 import { ParamFilterValidator } from './validators/paramFilters.validator';
 import { JwtAuthGuard } from '~/auth/guards/jwtAuthguard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 @ApiBearerAuth()
 @ApiTags('Products')
 @Controller('/v1/products')
@@ -17,6 +26,8 @@ export class ProductController {
   }
 
   @Get()
+  @CacheTTL(30000)
+  @UseInterceptors(CacheInterceptor)
   getAllProducts(@Query() paramFilters: ParamFilterValidator) {
     const { limit, page } = paramFilters;
     return this.productService.getAllProduct({ limit, page });

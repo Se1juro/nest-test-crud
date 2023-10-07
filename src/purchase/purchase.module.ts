@@ -11,8 +11,11 @@ import { UserRepository } from 'src/user/repositories/user.repository';
 import { ProductService } from 'src/product/product.service';
 import { ProductPurchaseRepository } from 'src/product-purchase/repositories/productPurchase.repository';
 import { ProductPurchaseService } from 'src/product-purchase/product-purchase.service';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
+  imports: [CacheModule.register()],
+
   controllers: [PurchaseController],
   providers: [
     PurchaseService,

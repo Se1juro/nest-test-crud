@@ -14,9 +14,18 @@ import { ShoppingKartProductsModule } from './shopping-kart-products/shopping-ka
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthStrategy } from './auth/strategies/auth.strategy';
 import { LoggerMiddleware } from './middlewares/logger-middleware.middleware';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
+    CacheModule.register({
+      store: redisStore,
+      ttl: 30000,
+      host: 'localhost',
+      port: 6379,
+    }),
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     TypeOrmModule.forRoot(DATABASE_CONFIGURATION),
     ProductModule,
@@ -28,7 +37,14 @@ import { LoggerMiddleware } from './middlewares/logger-middleware.middleware';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, JwtAuthStrategy],
+  providers: [
+    AppService,
+    JwtAuthStrategy,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   constructor() {}

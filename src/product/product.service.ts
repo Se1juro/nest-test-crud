@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -9,10 +10,15 @@ import { ProductRepository } from './repositories/product.repository';
 import { IParamsSearch } from '~/interfaces/paramsSearchProducts.interface';
 import { ShoppingKart } from '~/shopping-kart/model/shoppingKart.model';
 import { IProductsResponse } from '~/interfaces/products.interface';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(
+    private readonly productRepository: ProductRepository,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+  ) {}
 
   async createProduct(product: DeepPartial<Product>): Promise<Product> {
     const newProduct = this.productRepository.create(product);
@@ -21,19 +27,26 @@ export class ProductService {
   }
 
   async getAllProduct(params: IParamsSearch): Promise<IProductsResponse> {
+    const cachedResponse = await this.cacheManager.get('products');
+    if (cachedResponse) {
+      return cachedResponse as IProductsResponse;
+    }
     const { limit, page } = params;
     const [rows, totalRows] = await this.productRepository.searchProducts(
       page,
       limit,
     );
 
-    return {
+    const response = {
       rows,
       totalRows,
       page,
       limit,
       totalPage: Math.ceil(totalRows / limit),
     };
+    await this.cacheManager.set('products', response, 30000);
+    console.log('FROM API');
+    return response;
   }
 
   async updateProduct(product: DeepPartial<Product>) {

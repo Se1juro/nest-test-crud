@@ -32,3 +32,10 @@ Podras hacer peticiones de dos formas
 
 - ```http://localhost/api/store/v1/products?limit=10&page=1```
 - ```http://localhost:3000/api/store/v1/products?limit=10&page=1```
+
+## Documentacion
+
+La documentacion se puede encontrar en la ruta
+
+- ```http://localhost:3000/documentation```
+- ```http://localhost/documentation```

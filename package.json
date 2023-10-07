@@ -79,12 +79,14 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/dist/",
-      "/src/*/models/",
-      "/src/*/repositories/",
-      "/src/*/migrations/"
+      "/src/.*/model/",
+      "/src/.*/repositories/",
+      "/src/.*/migrations/",
+      ".model.ts",
+      ".validator.ts"
     ],
     "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
+      "^.+\\.(t|j)s$": "ts-jest"
     },
     "globals": {
       "ts-jest": {

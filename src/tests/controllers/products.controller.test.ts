@@ -1,36 +1,62 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProductController } from '../../product/product.controller';
-import { ProductService } from 'src/product/product.service';
-import { productsResponse } from '../examples/products';
+import { IProductsResponse } from '~/interfaces/products.interface';
+import { Product } from '~/product/model/product.model';
+import { ProductController } from '~/product/product.controller';
+import { ProductService } from '~/product/product.service';
+import { ProductRepository } from '~/product/repositories/product.repository';
+import { CreateProductValidator } from '~/product/validators/createProduct.validator';
+import { ParamFilterValidator } from '~/product/validators/paramFilters.validator';
 
-describe('Product Controller', () => {
+describe('ProductController', () => {
   let productController: ProductController;
   let productService: ProductService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const app: TestingModule = await Test.createTestingModule({
       controllers: [ProductController],
-      providers: [ProductService], // Agrega el servicio al módulo de prueba
+      providers: [
+        ProductService,
+        {
+          provide: ProductRepository,
+          useValue: {
+            create: jest.fn().mockResolvedValue({}),
+            save: jest.fn().mockResolvedValue({}),
+          },
+        },
+        {
+          provide: 'DataSource',
+          useValue: {},
+        },
+      ],
     }).compile();
 
-    productController = module.get<ProductController>(ProductController);
-    productService = module.get<ProductService>(ProductService);
+    productController = app.get<ProductController>(ProductController);
+    productService = app.get<ProductService>(ProductService);
   });
 
-  it('should return an array of products', async () => {
-    const result = productsResponse;
+  describe('createProduct', () => {
+    it('should create a product', async () => {
+      const result = {} as Product;
+      jest
+        .spyOn(productService, 'createProduct')
+        .mockImplementation(() => Promise.resolve(result));
 
-    const getAllProductsSpy = jest
-      .spyOn(productService, 'getAllProducts' as any)
-      .mockResolvedValueOnce(result);
-
-    // Llama al método del controlador que deseas probar
-    const response = await productController.getAllProducts({
-      limit: 10,
-      page: 1,
+      expect(
+        await productController.createProduct(new CreateProductValidator()),
+      ).toBe(result);
     });
+  });
 
-    expect(response).toBe(result);
-    expect(getAllProductsSpy).toHaveBeenCalled();
+  describe('getAllProducts', () => {
+    it('should get all products', async () => {
+      const result = {} as IProductsResponse;
+      jest
+        .spyOn(productService, 'getAllProduct')
+        .mockImplementation(() => Promise.resolve(result));
+
+      expect(
+        await productController.getAllProducts(new ParamFilterValidator()),
+      ).toBe(result);
+    });
   });
 });

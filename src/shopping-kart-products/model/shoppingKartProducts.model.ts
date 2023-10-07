@@ -1,5 +1,5 @@
-import { Product } from 'src/product/model/product.model';
-import { ShoppingKart } from 'src/shopping-kart/model/shoppingKart.model';
+import { Product } from '~/product/model/product.model';
+import { ShoppingKart } from '~/shopping-kart/model/shoppingKart.model';
 import {
   Column,
   Entity,

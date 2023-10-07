@@ -1,5 +1,5 @@
-import { Purchase } from 'src/purchase/model/purchase.model';
-import { ShoppingKart } from 'src/shopping-kart/model/shoppingKart.model';
+import { Purchase } from '~/purchase/model/purchase.model';
+import { ShoppingKart } from '~/shopping-kart/model/shoppingKart.model';
 import {
   BeforeInsert,
   BeforeUpdate,

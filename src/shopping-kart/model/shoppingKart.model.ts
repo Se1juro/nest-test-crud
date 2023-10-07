@@ -1,5 +1,5 @@
-import { ShoppingKartProducts } from 'src/shopping-kart-products/model/shoppingKartProducts.model';
-import { Users } from 'src/user/model/user.model';
+import { ShoppingKartProducts } from '~/shopping-kart-products/model/shoppingKartProducts.model';
+import { Users } from '~/user/model/user.model';
 import {
   Column,
   Entity,

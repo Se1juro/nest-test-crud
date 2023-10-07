@@ -8,7 +8,6 @@ import { PurchaseModule } from './purchase/purchase.module';
 import { ProductPurchaseModule } from './product-purchase/product-purchase.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-
 import { DATABASE_CONFIGURATION } from './config/database.configuration';
 import { ShoppingKartModule } from './shopping-kart/shopping-kart.module';
 import { ShoppingKartProductsModule } from './shopping-kart-products/shopping-kart-products.module';
@@ -32,6 +31,7 @@ import { LoggerMiddleware } from './middlewares/logger-middleware.middleware';
   providers: [AppService, JwtAuthStrategy],
 })
 export class AppModule implements NestModule {
+  constructor() {}
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }

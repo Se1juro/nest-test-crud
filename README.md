@@ -30,5 +30,5 @@ Se implemento un proxy inverso utilizando NGINX, por lo cual, procura detener tu
 
 Podras hacer peticiones de dos formas
 
-```http://localhost/api/store/v1/products?limit=10&page=1```
-```http://localhost:3000/api/store/v1/products?limit=10&page=1```
+- ```http://localhost/api/store/v1/products?limit=10&page=1```
+- ```http://localhost:3000/api/store/v1/products?limit=10&page=1```

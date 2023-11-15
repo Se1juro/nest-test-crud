@@ -23,7 +23,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     CacheModule.register({
       store: redisStore,
       ttl: 30000,
-      host: 'localhost',
+      host: 'redis',
       port: 6379,
     }),
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
